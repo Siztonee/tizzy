@@ -1,0 +1,12 @@
+<template>
+  <CustomHead title="Админ панель" />
+  <AppLayout> 
+    
+  </AppLayout>
+</template>
+
+<script setup>
+import AppLayout from "@/Layouts/AppLayout.vue";
+import CustomHead from "@/Components/CustomHead.vue";
+
+</script>
