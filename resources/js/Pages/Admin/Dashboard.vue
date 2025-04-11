@@ -1,5 +1,5 @@
 <template>
-  <CustomHead title="Админ панель" />
+  <AppTitle title="Админ панель" />
   <AppLayout>
     <PanelHeader />
     <h1>dashboard</h1>
@@ -8,8 +8,8 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import CustomHead from '@/Components/CustomHead.vue';
-import PanelHeader from '@/Components/Panel/PanelHeader.vue'
+import AppTitle from '@/Components/App/AppTitle.vue';
+import PanelHeader from '@/Pages/Admin/components/PanelHeader.vue'
 
 defineProps({
   totalProducts: Number,

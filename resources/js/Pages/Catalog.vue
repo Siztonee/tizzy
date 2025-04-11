@@ -1,5 +1,5 @@
 <template>
-  <CustomHead title="Каталог" />
+  <AppTitle title="Каталог" />
 
   <AppLayout>
     <div class="min-h-screen bg-gray-900 text-gray-100">
@@ -199,7 +199,7 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import CustomHead from '@/Components/CustomHead.vue';
+import AppTitle from '@/Components/App/AppTitle.vue';
 import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
 

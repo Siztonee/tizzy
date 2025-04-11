@@ -1,3 +1,43 @@
+<template>
+  <div class="fixed top-4 right-4 z-50 space-y-3 w-80">
+    <TransitionGroup
+      name="notification"
+      tag="div"
+      class="notifications-list"
+    >
+      <div
+        v-for="notification in notifications"
+        :key="notification.id"
+        :class="notificationClasses(notification.type)"
+        class="relative p-4 pr-10 rounded-lg shadow-lg transition-all duration-300 transform cursor-pointer"
+        role="alert"
+      >
+        <!-- Иконка типа -->
+        <div class="absolute left-4 top-4">
+          <component :is="typeIcon(notification.type)" class="w-6 h-6" />
+        </div>
+
+        <!-- Текст -->
+        <div class="ml-10">
+          <p class="text-sm font-medium">
+            {{ notification.message }}
+          </p>
+        </div>
+
+        <!-- Крестик закрытия -->
+        <button
+          @click.stop="removeNotification(notification.id)"
+          class="absolute top-3 right-3 p-1 hover:opacity-70 transition-opacity"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </TransitionGroup>
+  </div>
+</template>
+
 <script setup>
 import { ref, watch, onMounted, computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
@@ -96,43 +136,3 @@ watch(() => usePage().props.notification, handleNotifications)
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
-
-<template>
-  <div class="fixed top-4 right-4 z-50 space-y-3 w-80">
-    <TransitionGroup
-      name="notification"
-      tag="div"
-      class="notifications-list"
-    >
-      <div
-        v-for="notification in notifications"
-        :key="notification.id"
-        :class="notificationClasses(notification.type)"
-        class="relative p-4 pr-10 rounded-lg shadow-lg transition-all duration-300 transform cursor-pointer"
-        role="alert"
-      >
-        <!-- Иконка типа -->
-        <div class="absolute left-4 top-4">
-          <component :is="typeIcon(notification.type)" class="w-6 h-6" />
-        </div>
-
-        <!-- Текст -->
-        <div class="ml-10">
-          <p class="text-sm font-medium">
-            {{ notification.message }}
-          </p>
-        </div>
-
-        <!-- Крестик закрытия -->
-        <button
-          @click.stop="removeNotification(notification.id)"
-          class="absolute top-3 right-3 p-1 hover:opacity-70 transition-opacity"
-        >
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-    </TransitionGroup>
-  </div>
-</template>

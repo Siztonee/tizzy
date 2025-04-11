@@ -1,27 +1,5 @@
-<script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import CustomHead from '@/Components/CustomHead.vue';
-import { ref } from 'vue';
-import { Link, router } from '@inertiajs/vue3';
-
-// Определяем props
-const props = defineProps({
-  errors: Object,
-});
-
-const form = ref({
-  email: '',
-  password: '',
-  remember: null,
-});
-
-const submitForm = () => {
-  router.post(route('login.auth'), form.value);
-};
-</script>
-
 <template>
-    <CustomHead title="Вход" />
+    <AppTitle title="Вход" />
 
     <AppLayout>
         <main class="min-h-screen flex items-center justify-center px-4">
@@ -95,3 +73,25 @@ const submitForm = () => {
         </main>
     </AppLayout>
 </template>
+
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
+import AppTitle from '@/Components/App/AppTitle.vue';
+import { ref } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
+
+// Определяем props
+const props = defineProps({
+  errors: Object,
+});
+
+const form = ref({
+  email: '',
+  password: '',
+  remember: null,
+});
+
+const submitForm = () => {
+  router.post(route('login.auth'), form.value);
+};
+</script>

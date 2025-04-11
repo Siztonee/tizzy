@@ -1,12 +1,12 @@
 <template>
-  <CustomHead title="Админ панель" />
+  <AppTitle title="Управление товарами" />
   <AppLayout>
     <PanelHeader />
     <div class="h-full flex flex-col bg-gray-900 rounded-xl shadow mb-12 p-6 lg:p-8">
       <!-- Заголовок и кнопки -->
       <div class="mb-8 flex items-center justify-between">
         <h2 class="text-xl font-semibold text-white">Управление товарами</h2>
-        <Link :href="route('admin.products')"
+        <Link :href="route('admin.products.add')"
               class="text-xl font-semibold text-white">
           + Добавить товар
         </Link>
@@ -207,8 +207,8 @@ import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 import throttle from 'lodash/throttle';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import CustomHead from '@/Components/CustomHead.vue';
-import PanelHeader from '@/Components/Panel/PanelHeader.vue';
+import AppTitle from '@/Components/App/AppTitle.vue';
+import PanelHeader from '@/Pages/Admin/components/PanelHeader.vue';
 import { 
   PhotoIcon,
   StarIcon,

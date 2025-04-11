@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('role')->default('user');
+            $table->decimal('balance', 15, 2)->default(0.00);
             $table->string('google_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->boolean('is_banned')->default(false);
+            $table->timestamp('last_seen')->nullable();
             $table->timestamps();
         });
 

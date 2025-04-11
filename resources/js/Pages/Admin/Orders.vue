@@ -1,18 +1,10 @@
 <template>
-    <CustomHead title="Админ панель" />
+    <AppTitle title="Админ панель" />
     <AppLayout>
     <PanelHeader />
       <div>
         <main class="p-6">
             <h1 class="text-2xl font-bold text-white mb-6">{{ title }}</h1>
-            
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <StatCard title="Total Sales" value="$24,500" icon="CurrencyDollarIcon" trend="up" trend-value="12%"/>
-            <StatCard title="New Orders" value="1,234" icon="ShoppingCartIcon" trend="down" trend-value="5%"/>
-            <StatCard title="Active Users" value="2,345" icon="UserGroupIcon" trend="up" trend-value="8%"/>
-            <StatCard title="Conversion Rate" value="3.2%" icon="ChartPieIcon" trend="stable"/>
-            </div>
 
             <!-- Recent Orders Table -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
@@ -51,9 +43,8 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import CustomHead from '@/Components/CustomHead.vue';
-import PanelHeader from '@/Components/Panel/PanelHeader.vue';
-import StatCard from '@/Components/StatCard.vue';
+import AppTitle from '@/Components/App/AppTitle.vue';
+import PanelHeader from '@/Pages/Admin/components/PanelHeader.vue';
 import { ref } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { 

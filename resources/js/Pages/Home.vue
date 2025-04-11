@@ -1,13 +1,5 @@
-<script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import CustomHead from '@/Components/CustomHead.vue';
-import { Link } from '@inertiajs/vue3';
-
-const props = defineProps({});
-</script>
-
 <template>
-    <CustomHead title="Главная" />
+    <AppTitle title="Главная" />
     <AppLayout>
         <div class="relative bg-gray-800">
             <div class="max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
@@ -54,3 +46,11 @@ const props = defineProps({});
         </section>
     </AppLayout>
 </template>
+
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
+import AppTitle from '@/Components/App/AppTitle.vue';
+import { Link } from '@inertiajs/vue3';
+
+const props = defineProps({});
+</script>

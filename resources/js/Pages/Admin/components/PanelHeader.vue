@@ -27,7 +27,7 @@
             :count="totalUsers" 
             icon="UserGroupIcon"
             color="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300"
-            :href="route('admin.dashboard')"
+            :href="route('admin.users')"
           />
 
           <PanelHeaderCard 
@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import PanelHeaderCard from '@/Components/Panel/PanelHeaderCard.vue'
+import PanelHeaderCard from '@/Pages/Admin/components/PanelHeaderCard.vue'
 
 defineProps({
   totalProducts: Number,

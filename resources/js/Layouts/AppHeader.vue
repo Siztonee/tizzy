@@ -28,9 +28,10 @@
         </div>
         
         <div class="flex items-center space-x-4">
-          <template v-if="authStore.user">
-            <span class="text-gray-300">{{ authStore.user.name }}</span>
+          <template v-if="$page.props.authUser">
+            <span class="text-gray-300">{{ $page.props.authUser.name }} (${{ $page.props.authUser.balance }})</span>
           </template>
+
           <template v-else>
             <Link :href="route('login')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-200">
               Войти
@@ -83,20 +84,10 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { usePage, Link } from '@inertiajs/vue3'
-import { useAuthStore } from '@/store/authStore'
 import { Bars3Icon, XMarkIcon, ShoppingBagIcon, UsersIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
 
 const page = usePage()
-const authStore = useAuthStore()
 const isSidebarOpen = ref(false)
-
-watch(
-  () => page.props.user,
-  (newUser) => {
-    authStore.setUser(newUser)
-  },
-  { immediate: true }
-)
 
 watch(
   () => page.url,

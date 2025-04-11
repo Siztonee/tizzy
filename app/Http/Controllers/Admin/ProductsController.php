@@ -15,7 +15,7 @@ class ProductsController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(20);
         
-        if ($request->expectsJson() || $request->ajax()) {
+        if ($request->expectsJson()) {
             return response()->json($products);
         }
         

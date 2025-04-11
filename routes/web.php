@@ -4,11 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\Admin\AddProductController;
 
 
 Route::get('/', [HomeController::class, 'indexHomePage'])->name('home');
@@ -28,4 +30,6 @@ Route::view('/terms-of-service', 'terms-of-service');
 
 Route::get('/a/dashboard', [DashboardController::class, 'indexDashboardPage'])->name('admin.dashboard');
 Route::get('/a/products', [ProductsController::class, 'indexProductsPage'])->name('admin.products');
+Route::get('/a/products/add', [AddProductController::class, 'index'])->name('admin.products.add');
 Route::get('/a/orders', [OrdersController::class, 'indexOrdersPage'])->name('admin.orders');
+Route::get('/a/users', [UsersController::class, 'indexUsersPage'])->name('admin.users');

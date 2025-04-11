@@ -1,45 +1,5 @@
-<script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import CustomHead from '@/Components/CustomHead.vue';
-import { ref } from 'vue';
-import { Link, router } from '@inertiajs/vue3';
-
-// Определяем props
-const props = defineProps({
-  errors: Object,
-});
-
-// Создаем реактивный объект для формы
-const form = ref({
-  name: '',
-  email: '',
-  password: '',
-});
-
-// Функция для отправки формы
-const submitForm = () => {
-  router.post(route('register.store'), form.value);
-};
-
-// Функция для переключения видимости пароля
-const togglePasswordVisibility = (button) => {
-  const input = button.previousElementSibling;
-  const isPassword = input.type === 'password';
-  input.type = isPassword ? 'text' : 'password';
-
-  button.innerHTML = isPassword
-    ? `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M6.58 6.58l4.242 4.243M6.58 6.58l-1.325-1.325a9.968 9.968 0 00-1.563 3.029M18 14l-4.243-4.243m4.242 4.242l1.325 1.325M18 14l2.123 2.123M4 4l3.637 3.637"/>
-       </svg>`
-    : `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-       </svg>`;
-};
-</script>
-
 <template>
-    <CustomHead title="Регистрация" />
+    <AppTitle title="Регистрация" />
 
     <AppLayout>
         <main class="min-h-screen flex items-center justify-center px-4 py-8">
@@ -123,3 +83,43 @@ const togglePasswordVisibility = (button) => {
         </main>
     </AppLayout>
 </template>
+
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
+import AppTitle from '@/Components/App/AppTitle.vue';
+import { ref } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
+
+// Определяем props
+const props = defineProps({
+  errors: Object,
+});
+
+// Создаем реактивный объект для формы
+const form = ref({
+  name: '',
+  email: '',
+  password: '',
+});
+
+// Функция для отправки формы
+const submitForm = () => {
+  router.post(route('register.store'), form.value);
+};
+
+// Функция для переключения видимости пароля
+const togglePasswordVisibility = (button) => {
+  const input = button.previousElementSibling;
+  const isPassword = input.type === 'password';
+  input.type = isPassword ? 'text' : 'password';
+
+  button.innerHTML = isPassword
+    ? `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M6.58 6.58l4.242 4.243M6.58 6.58l-1.325-1.325a9.968 9.968 0 00-1.563 3.029M18 14l-4.243-4.243m4.242 4.242l1.325 1.325M18 14l2.123 2.123M4 4l3.637 3.637"/>
+       </svg>`
+    : `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+       </svg>`;
+};
+</script>

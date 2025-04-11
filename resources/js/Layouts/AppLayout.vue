@@ -1,7 +1,7 @@
 <script setup>
-    import Header from '@/Components/Header.vue';
-    import Footer from '@/Components/Footer.vue';
-    import Notifications from '@/Components/Notifications.vue'
+    import Header from '@/Layouts/AppHeader.vue';
+    import Footer from '@/Layouts/AppFooter.vue';
+    import Notifications from '@/Components/App/Notifications.vue'
 </script>
 
 <template>
