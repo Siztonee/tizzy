@@ -28,12 +28,24 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('image');
             $table->text('description');
-            $table->unsignedInteger('price');
-            $table->unsignedInteger('discounted_price')->nullable();
+
+            $table->unsignedInteger('stock_count');
+
+            $table->decimal('price', 8, 2);
+            $table->decimal('discounted_price', 8, 2)->nullable();
             $table->unsignedTinyInteger('discount_percent')->nullable();
-            $table->decimal('rating', 2, 1)->default(5); 
-            $table->boolean('active')->default(true);
+
+            $table->decimal('rating', 2, 1)->default(0); 
+            $table->boolean('is_active')->default(true);
+
+            $table->timestamp('discount_start')->nullable();
+            $table->timestamp('discount_end')->nullable();
             $table->timestamps();
+
+            $table->index('price');
+            $table->index('rating');
+            $table->index('is_active');
+            $table->index('discounted_price');
         });
     }
 
