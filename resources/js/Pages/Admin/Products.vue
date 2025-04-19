@@ -84,11 +84,11 @@
                 <!-- Остаток -->
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span :class="{
-                    'text-green-400': product.stock > 10,
-                    'text-yellow-400': product.stock <= 10 && product.stock > 0,
-                    'text-red-400': product.stock === 0
+                    'text-green-400': product.stock_count > 10,
+                    'text-yellow-400': product.stock_count <= 10 && product.stock_count > 0,
+                    'text-red-400': product.stock_count === 0
                   }">
-                    {{ product.stock }} шт.
+                    {{ product.stock_count }} шт.
                   </span>
                 </td>
                 

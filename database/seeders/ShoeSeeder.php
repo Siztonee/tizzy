@@ -15,18 +15,18 @@ class ShoeSeeder extends Seeder
      */
     public function run(): void
     {
-        $brands = Brand::all();
-        $categories = Category::all();
+        // $brands = Brand::all();
+        // $categories = Category::all();
         
-        foreach ($brands as $brand) {
-            for ($i = 0; $i < 5; $i++) {
-                $category = $categories->random();
+        // foreach ($brands as $brand) {
+        //     for ($i = 0; $i < 5; $i++) {
+        //         $category = $categories->random();
                 
-                Shoe::factory()->create([
-                    'brand_id' => $brand->id,
-                    'category_id' => $category->id
-                ]);
-            }
-        }
+        //         Shoe::factory()->create([
+        //             'brand_id' => $brand->id,
+        //             'category_id' => $category->id
+        //         ]);
+        //     }
+        // }
     }
 }

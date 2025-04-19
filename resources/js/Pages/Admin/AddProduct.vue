@@ -3,127 +3,134 @@
   <AppLayout> 
     <PanelHeader />
     <div class="max-w-6xl mx-auto px-4 py-8">
-      <div class="flex justify-between items-center mb-8">
-        <h1 class="text-2xl font-bold text-indigo-400">Добавление товара</h1>
-        <div class="flex space-x-4">
-          <button class="btn-primary">
-            Сохранить
-          </button>
-        </div>
-      </div>
-
-      <!-- Основной контент -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Блок с изображением -->
-        <div class="lg:col-span-1">
-          <div class="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <label class="cursor-pointer group">
-              <input type="file" class="hidden" @change="previewImage">
-              <div class="aspect-square w-full rounded-lg border-2 border-dashed border-gray-600 flex items-center justify-center group-hover:border-indigo-400 transition-colors">
-                <template v-if="!imagePreview">
-                  <div class="text-center">
-                    <PhotoIcon class="w-12 h-12 text-gray-500 mx-auto mb-3"/>
-                    <p class="text-gray-400 text-sm">Загрузите изображение</p>
-                    <p class="text-gray-500 text-xs mt-1">Рекомендуемый размер 800x800px</p>
-                  </div>
-                </template>
-                <img v-else :src="imagePreview" 
-                    class="w-full h-full object-cover rounded-lg">
-              </div>
-            </label>
+      <form @submit.prevent="submitForm">
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-2xl font-bold text-indigo-400">Добавление товара</h1>
+          <div class="flex space-x-4">
+            <button class="btn-primary">
+              Сохранить
+            </button>
           </div>
         </div>
 
-        <!-- Форма -->
-        <div class="lg:col-span-2">
-          <form class="space-y-6">
-            <!-- Название -->
-            <div>
-              <label class="block mb-2 text-sm font-medium flex items-center">
-                <TagIcon class="w-5 h-5 mr-2 text-gray-400"/>
-                Название товара
-              </label>
-              <input type="text" 
-                    class="w-full input-field"
-                    placeholder="Кроссовки спортивные...">
-            </div>
-
-            <!-- Описание -->
-            <div>
-              <label class="block mb-2 text-sm font-medium flex items-center">
-                <DocumentTextIcon class="w-5 h-5 mr-2 text-gray-400"/>
-                Описание
-              </label>
-              <textarea 
-                rows="4"
-                class="w-full input-field"
-                placeholder="Подробное описание товара..."></textarea>
-            </div>
-
-            <!-- Цена и Скидка -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label class="block mb-2 text-sm font-medium">Цена</label>
-                <div class="relative">
-                  <input type="number" 
-                        class="input-field pl-10"
-                        placeholder="0.00">
+        <!-- Основной контент -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Блок с изображением -->
+          <div class="lg:col-span-1">
+            <div class="bg-gray-800 rounded-xl p-6 shadow-lg">
+              <label class="cursor-pointer group">
+                <input type="file" class="hidden" @change="previewImage">
+                <div class="aspect-square w-full rounded-lg border-2 border-dashed border-gray-600 flex items-center justify-center group-hover:border-indigo-400 transition-colors">
+                  <template v-if="!imagePreview">
+                    <div class="text-center">
+                      <PhotoIcon class="w-12 h-12 text-gray-500 mx-auto mb-3"/>
+                      <p class="text-gray-400 text-sm">Загрузите изображение</p>
+                      <p class="text-gray-500 text-xs mt-1">Рекомендуемый размер 800x800px</p>
+                    </div>
+                  </template>
+                  <img v-else :src="imagePreview" 
+                      class="w-full h-full object-cover rounded-lg">
                 </div>
-              </div>
-              
-              <div>
-                <label class="block mb-2 text-sm font-medium">Скидка</label>
-                <div class="relative">
-                  <input type="number" 
-                        min="0" 
-                        max="100"
-                        class="input-field pr-10"
-                        placeholder="0">
-                </div>
-              </div>
+              </label>
             </div>
+          </div>
 
-            <!-- Категория и Бренд -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Форма -->
+          <div class="lg:col-span-2">
+            <form class="space-y-6">
+              <!-- Название -->
               <div>
                 <label class="block mb-2 text-sm font-medium flex items-center">
-                  <FolderIcon class="w-5 h-5 mr-2 text-gray-400"/>
-                  Категория
+                  <TagIcon class="w-5 h-5 mr-2 text-gray-400"/>
+                  Название товара
                 </label>
-                <select class="w-full input-field">
-                  <option value="">Выберите категорию</option>
-                  <option v-for="category in categories" 
-                          :value="category.id">
-                    {{ category.name }}
-                  </option>
-                </select>
+                <input type="text" 
+                      v-model="form.name"
+                      class="w-full input-field"
+                      placeholder="Название товара">
               </div>
 
+              <!-- Описание -->
               <div>
                 <label class="block mb-2 text-sm font-medium flex items-center">
-                  <TruckIcon class="w-5 h-5 mr-2 text-gray-400"/>
-                  Бренд
+                  <DocumentTextIcon class="w-5 h-5 mr-2 text-gray-400"/>
+                  Описание
                 </label>
-                <select class="w-full input-field">
-                  <option value="">Выберите бренд</option>
-                  <option v-for="brand in brands" 
-                          :value="brand.id">
-                    {{ brand.name }}
-                  </option>
-                </select>
+                <textarea 
+                  rows="4"
+                  v-model="form.description"
+                  class="w-full input-field"
+                  placeholder="Подробное описание товара..."></textarea>
               </div>
-            </div>
 
-            <!-- Остаток -->
-            <div>
-              <label class="block mb-2 text-sm font-medium">Остаток на складе</label>
-              <input type="number" 
-                    class="input-field"
-                    placeholder="Введите количество">
-            </div>
-          </form>
+              <!-- Цена и Скидка -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block mb-2 text-sm font-medium">Цена</label>
+                  <div class="relative">
+                    <input type="number" 
+                        v-model="form.price"
+                          class="input-field pl-10"
+                          placeholder="0.00">
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block mb-2 text-sm font-medium">Скидка</label>
+                  <div class="relative">
+                    <input type="number" 
+                          v-model="form.discount_percent"
+                          min="0" 
+                          max="100"
+                          class="input-field pr-10"
+                          placeholder="0">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Категория и Бренд -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block mb-2 text-sm font-medium flex items-center">
+                    <FolderIcon class="w-5 h-5 mr-2 text-gray-400"/>
+                    Категория
+                  </label>
+                  <select v-model="form.category_id" class="w-full input-field">
+                    <option value="">Выберите категорию</option>
+                    <option v-for="category in categories" 
+                            :value="category.id">
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block mb-2 text-sm font-medium flex items-center">
+                    <TruckIcon class="w-5 h-5 mr-2 text-gray-400"/>
+                    Бренд
+                  </label>
+                  <select v-model="form.brand_id" class="w-full input-field">
+                    <option value="">Выберите бренд</option>
+                    <option v-for="brand in brands" 
+                            :value="brand.id">
+                      {{ brand.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Остаток -->
+              <div>
+                <label class="block mb-2 text-sm font-medium">Остаток на складе</label>
+                <input type="number" 
+                      v-model="form.stock_count"
+                      class="input-field"
+                      placeholder="Введите количество">
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   </AppLayout>
 </template>
@@ -133,6 +140,8 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import AppTitle from "@/Components/App/AppTitle.vue";
 import PanelHeader from '@/Pages/Admin/components/PanelHeader.vue';
 import { ref } from 'vue'
+import { router } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
 import { 
   PhotoIcon,
   TagIcon,
@@ -141,18 +150,41 @@ import {
   TruckIcon
 } from '@heroicons/vue/24/outline'
 
-const imagePreview = ref(null)
+const form = ref({
+  name: '',
+  description: '',
+  price: null,
+  discount_percent: null,
+  category_id: null,
+  brand_id: null,
+  stock_count: null,
+  image: null,
+});
 
+const imagePreview = ref(null);
 const previewImage = (event) => {
-  const file = event.target.files[0]
+  const file = event.target.files[0];
   if (file) {
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = (e) => {
-      imagePreview.value = e.target.result
-    }
-    reader.readAsDataURL(file)
+      imagePreview.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    form.value.image = file;
   }
-}
+};
+
+const submitForm = () => {
+  router.post(route('admin.products.store'), form.value, {
+    forceFormData: true, 
+  });
+};
+
+const props = defineProps({
+  categories: Array,
+  brands: Array,
+});
+
 </script>
 
 <style>

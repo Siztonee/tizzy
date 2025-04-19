@@ -31,5 +31,6 @@ Route::view('/terms-of-service', 'terms-of-service');
 Route::get('/a/dashboard', [DashboardController::class, 'indexDashboardPage'])->name('admin.dashboard');
 Route::get('/a/products', [ProductsController::class, 'indexProductsPage'])->name('admin.products');
 Route::get('/a/products/add', [AddProductController::class, 'index'])->name('admin.products.add');
+Route::post('/a/products/add', [AddProductController::class, 'store'])->name('admin.products.store');
 Route::get('/a/orders', [OrdersController::class, 'indexOrdersPage'])->name('admin.orders');
 Route::get('/a/users', [UsersController::class, 'indexUsersPage'])->name('admin.users');
