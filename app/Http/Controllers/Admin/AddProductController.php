@@ -25,7 +25,7 @@ class AddProductController extends Controller
     }
 
 
-    public function store(StoreProductRequest $request, ProductService $productService): RedirectResponse
+    public function store(StoreProductRequest $request, ProductService $productService)
     {
         try {
             $this->productService->createProduct(

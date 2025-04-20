@@ -28,7 +28,7 @@ class ProductService
 
     protected function uploadImage(UploadedFile $image): string
     {
-        return $image->store('public/products');
+        return $image->store('products');
     }
 
     protected function calculateDiscount(float $price, float $discountPercent): float

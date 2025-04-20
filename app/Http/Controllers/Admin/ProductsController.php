@@ -6,6 +6,7 @@ use App\Models\Shoe;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ShoeResource;
 
 class ProductsController extends Controller
 {
@@ -19,6 +20,8 @@ class ProductsController extends Controller
             return response()->json($products);
         }
         
-        return Inertia::render('Admin/Products', compact('products'));
+        return Inertia::render('Admin/Products', [
+            'products' => ShoeResource::collection(Shoe::all())
+        ]);
     }
 }
