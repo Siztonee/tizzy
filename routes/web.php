@@ -10,16 +10,15 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\SocialAuthController;
-use App\Http\Controllers\Admin\AddProductController;
 
 
-Route::get('/', [HomeController::class, 'indexHomePage'])->name('home');
-Route::get('/catalog', [CatalogController::class, 'indexCatalogPage'])->name('catalog');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/catalog/load-more', [CatalogController::class, 'loadMoreShoes']);
 
-Route::get('/login', [LoginController::class, 'indexLoginForm'])->name('login');
+Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authUser'])->name('login.auth');
-Route::get('/register', [RegisterController::class, 'indexRegisterForm'])->name('register');
+Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'storeUser'])->name('register.store');
 
 Route::get('login/google', [SocialAuthController::class, 'redirect'])->name('login.google');
@@ -28,9 +27,9 @@ Route::get('login/google/callback', [SocialAuthController::class, 'callback']);
 Route::view('/privacy-policy', 'privacy-policy');
 Route::view('/terms-of-service', 'terms-of-service');
 
-Route::get('/a/dashboard', [DashboardController::class, 'indexDashboardPage'])->name('admin.dashboard');
-Route::get('/a/products', [ProductsController::class, 'indexProductsPage'])->name('admin.products');
-Route::get('/a/products/add', [AddProductController::class, 'index'])->name('admin.products.add');
-Route::post('/a/products/add', [AddProductController::class, 'store'])->name('admin.products.store');
-Route::get('/a/orders', [OrdersController::class, 'indexOrdersPage'])->name('admin.orders');
-Route::get('/a/users', [UsersController::class, 'indexUsersPage'])->name('admin.users');
+Route::get('/a/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+Route::get('/a/products', [ProductsController::class, 'index'])->name('admin.products');
+Route::get('/a/products/add', [ProductsController::class, 'create'])->name('admin.products.create');
+Route::post('/a/products/add', [ProductsController::class, 'store'])->name('admin.products.store');
+Route::get('/a/orders', [OrdersController::class, 'index'])->name('admin.orders');
+Route::get('/a/users', [UsersController::class, 'index'])->name('admin.users');

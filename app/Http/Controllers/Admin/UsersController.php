@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 class UsersController extends Controller
 {
-    public function indexUsersPage(Request $request)
+    public function index(Request $request)
     {
         $users = User::orderBy('created_at', 'desc')->paginate(20);
         
@@ -17,6 +17,6 @@ class UsersController extends Controller
             return response()->json($users);
         }
 
-        return Inertia::render('Admin/Users', compact('users'));
+        return Inertia::render('Admin/Users/Index', compact('users'));
     }
 }

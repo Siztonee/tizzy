@@ -12,7 +12,7 @@ use App\Http\Requests\RegisterRequest;
 
 class RegisterController extends Controller
 {
-    public function indexRegisterForm()
+    public function index()
     {
         return Inertia::render('Auth/Register');
     }

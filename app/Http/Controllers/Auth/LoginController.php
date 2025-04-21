@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function indexLoginForm()
+    public function index()
     {
         return Inertia::render('Auth/Login');
     }

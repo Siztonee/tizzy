@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 
 class OrdersController extends Controller
 {
-    public function indexOrdersPage()
+    public function index()
     {
-        return Inertia::render('Admin/Orders');
+        return Inertia::render('Admin/Orders/Index');
     }
 }

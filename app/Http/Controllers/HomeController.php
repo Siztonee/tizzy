@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function indexHomePage()
+    public function index()
     {
-        return Inertia::render('Home');
+        return Inertia::render('Index');
     }
 }

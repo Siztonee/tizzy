@@ -9,10 +9,10 @@ use App\Http\Controllers\Controller;
 
 class CatalogController extends Controller
 {
-    public function indexCatalogPage(Request $request)
+    public function index(Request $request)
     {
         $shoes = Shoe::orderBy('created_at', 'desc')->paginate(21);
-        return Inertia::render('Catalog', compact('shoes'));
+        return Inertia::render('Catalog/Index', compact('shoes'));
     }
 
     public function loadMoreShoes(Request $request)
