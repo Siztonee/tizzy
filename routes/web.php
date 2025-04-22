@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\UsersController;
@@ -27,9 +28,11 @@ Route::get('login/google/callback', [SocialAuthController::class, 'callback']);
 Route::view('/privacy-policy', 'privacy-policy');
 Route::view('/terms-of-service', 'terms-of-service');
 
-Route::get('/a/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-Route::get('/a/products', [ProductsController::class, 'index'])->name('admin.products');
-Route::get('/a/products/add', [ProductsController::class, 'create'])->name('admin.products.create');
-Route::post('/a/products/add', [ProductsController::class, 'store'])->name('admin.products.store');
-Route::get('/a/orders', [OrdersController::class, 'index'])->name('admin.orders');
-Route::get('/a/users', [UsersController::class, 'index'])->name('admin.users');
+Route::prefix('admin')->middleware(AdminMiddleware::class)->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/products', [ProductsController::class, 'index'])->name('admin.products');
+    Route::get('/products/add', [ProductsController::class, 'create'])->name('admin.products.create');
+    Route::post('/products/add', [ProductsController::class, 'store'])->name('admin.products.store');
+    Route::get('/orders', [OrdersController::class, 'index'])->name('admin.orders');
+    Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
+});

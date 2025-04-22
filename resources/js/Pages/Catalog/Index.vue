@@ -140,7 +140,7 @@
                 <!-- Изображение товара с фиксированной высотой -->
                 <div class="aspect-[4/3] mb-4 relative">
                   <img
-                    :src="`https://picsum.photos/200/300?random=${shoe.image}`"
+                    :src="shoe.image"
                     :alt="shoe.name"
                     class="w-full h-full object-cover rounded-lg"
                   />
@@ -154,7 +154,16 @@
 
                   <!-- Рейтинг -->
                   <div class="flex items-center space-x-1 text-yellow-400 mb-2">
-                    {{ shoe.rating }}
+                    <div class="flex items-center">
+                      <span class="text-sm mr-2">{{ shoe.rating }}</span>
+                      <div class="flex">
+                        <StarIcon v-for="i in 5" :key="i" 
+                                class="w-4 h-4"
+                                :class="i <= Math.round(shoe.rating) 
+                                ? 'text-yellow-400 fill-current' 
+                                : 'text-gray-600'"/>
+                      </div>
+                    </div>
                   </div>
 
                   <!-- Описание с фиксированной высотой -->
@@ -166,10 +175,10 @@
                   <div class="mt-auto">
                     <div class="flex items-center">
                       <span class="text-xl font-bold">
-                        {{ shoe.discount_price ? shoe.discount_price : shoe.price }}
+                        {{ shoe.discounted_price ? shoe.discounted_price : shoe.price }}
                       </span>
                       <span
-                        v-if="shoe.discount_price"
+                        v-if="shoe.discounted_price"
                         class="ml-2 text-gray-400 line-through"
                       >
                         {{ shoe.price }}
@@ -202,6 +211,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import AppTitle from '@/Components/App/AppTitle.vue';
 import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { StarIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   shoes: Object,

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('role')->default('user');
+            $table->string('is_admin')->default(false);
             $table->decimal('balance', 15, 2)->default(0.00);
             $table->string('google_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
@@ -42,7 +42,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
 };

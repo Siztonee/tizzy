@@ -6,7 +6,7 @@
       <!-- Заголовок и кнопки -->
       <div class="mb-8 flex items-center justify-between">
         <h2 class="text-xl font-semibold text-white">Управление товарами</h2>
-        <Link :href="route('admin.products.add')"
+        <Link :href="route('admin.products.create')"
               class="text-xl font-semibold text-white">
           + Добавить товар
         </Link>
