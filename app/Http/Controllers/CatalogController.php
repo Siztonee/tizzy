@@ -4,24 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Shoe;
 use Inertia\Inertia;
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Filters\ProductFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ShoeResource;
+use App\Http\Requests\CatalogFilterRequest;
 
 class CatalogController extends Controller
 {
-    public function index(Request $request)
+    public function index(CatalogFilterRequest $request)
     {
         return Inertia::render('Catalog/Index', [
-            'shoes' => ShoeResource::collection(Shoe::orderBy('created_at', 'desc')->paginate(21)),
+            'shoes' => ShoeResource::collection($this->getFilteredProducts($request)),
+            'brands' => Brand::orderBy('name')->get(),
+            'categories' => Category::orderBy('name')->get(),
+            'filters' => $request->validated()
         ]);
     }
 
-    public function loadMoreShoes(Request $request)
+    private function getFilteredProducts($request)
     {
-        $page = $request->query('page', 1);
-        $shoes = Shoe::orderBy('created_at', 'desc')->paginate(21, ['*'], 'page', $page);
-        
-        return response()->json($shoes);
+        return Shoe::query()
+            ->with('category')
+            ->tap(new ProductFilters($request))
+            ->paginate(21)
+            ->withQueryString();
+    }
+
+    public function loadMoreShoes(CatalogFilterRequest $request)
+    {
+        $shoes = Shoe::query()
+            ->with('category')
+            ->tap(new ProductFilters($request))
+            ->paginate(21);
+
+        return ShoeResource::collection($shoes);
     }
 }
