@@ -16,11 +16,8 @@ class Shoe extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'price' => 'integer',
-        'discounted_price' => 'integer',
-        'discount_percent' => 'integer',
-        'rating' => 'decimal:1',
-        'active' => 'boolean',
+        'discount_start' => 'datetime',
+        'discount_end' => 'datetime',
     ];
 
     public function category(): BelongsTo
@@ -32,42 +29,5 @@ class Shoe extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-
-    public function getDiscountPriceAttribute()
-    {
-        return number_format($this->attributes['discount_price'], 0, '', ' ');
-    }
-
-    public function getPriceAttribute()
-    {
-        return number_format($this->attributes['price'], 0, '', ' ');
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->slug = $model->generateSlug($model->name);
-        });
-
-        static::updating(function ($model) {
-            if ($model->isDirty('name')) {
-                $model->slug = $model->generateSlug($model->name);
-            }
-        });
-    }
-
-    private function generateSlug($name)
-    {
-        $baseSlug = Str::slug($name);
-        $slug = $baseSlug;
-        $counter = 1;
-
-        while (static::where('slug', $slug)->exists()) {
-            $slug = $baseSlug . '-' . $counter++;
-        }
-
-        return $slug;
-    }
+    
 }

@@ -18,20 +18,16 @@ class BrandFactory extends Factory
      */
     public function definition(): array
     {
-        $brands = [
-            'Nike',
-            'Adidas', 
-            'Puma', 
-            'New Balance', 
-            'Reebok'
-        ];
+        $type = $this->faker->randomElement([
+            'Footwear', 'Shoes', 'Kicks', 'Athletics', 'Outdoor'
+        ]);
 
-        $brand = $brands[count(Brand::all())];
+        $name = $this->faker->unique()->company.' '.$type;
 
         return [
-            'name' => $brand,
-            'slug' => Str::slug($brand),
-            'icon' => (count(Brand::all()) + 1) . '.jpg'
+            'name' => $name,
+            'slug' => Str::slug($name).'-'.Str::lower(Str::random(4)),
+            'icon' => 'icons/brands/'.$this->faker->numberBetween(1, 10).'.jpg',
         ];
     }
 }

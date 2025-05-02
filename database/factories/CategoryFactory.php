@@ -18,22 +18,15 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $categories = [
-            'Сапоги',
-            'Ботинки',
-            'Повседневные',
-            'Туфли',
-            'Спортивные',
-            'Летние',
-            'Зимние',
-        ];
-
-        $category = $categories[count(Category::all())];
+        $name = $this->faker->words(
+            $this->faker->boolean(70) ? 1 : 2, 
+            true 
+        );
 
         return [
-            'name' => $category,
-            'slug' => Str::slug($category),
-            'icon' => (count(Category::all()) + 1) . '.jpg'
+            'name' => ucfirst($name),
+            'slug' => Str::slug($name).'-'.Str::lower(Str::random(4)),
+            'icon' => 'icons/categories/'.$this->faker->numberBetween(1, 10).'.jpg',
         ];
     }
 }

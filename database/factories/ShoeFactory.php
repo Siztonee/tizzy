@@ -2,58 +2,61 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
-use App\Models\Brand;
 use App\Models\Shoe;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ShoeFactory extends Factory
 {
     public function definition(): array
     {
         static $imageCounter = 0;
+        static $brandIds = null;
+        static $categoryIds = null;
+
+        // Инициализируем ID один раз для всех экземпляров
+        if ($brandIds === null) {
+            $brandIds = Brand::pluck('id')->toArray();
+        }
+        if ($categoryIds === null) {
+            $categoryIds = Category::pluck('id')->toArray();
+        }
+
         $imageCounter++;
 
-        $price = $this->faker->randomElement(range(5000, 30000, 1000)); // Round prices from 5000 to 30000
+        $price = $this->faker->randomElement(range(1000, 50000, 1000));
         
-        // Only apply discount to some products (about 30%)
+        // Логика скидки
         $hasDiscount = $this->faker->boolean(30);
-        $discountPercent = $hasDiscount ? $this->faker->numberBetween(10, 80) : null;
-        $discountedPrice = $hasDiscount ? round($price * (1 - $discountPercent / 100)) : null;
+        $discountDates = $hasDiscount ? [
+            'discount_start' => Carbon::now()->subDays($this->faker->numberBetween(1, 7)),
+            'discount_end' => Carbon::now()->addDays($this->faker->numberBetween(7, 30)),
+        ] : [];
 
-        $brand = Brand::inRandomOrder()->first();
-        $category = Category::inRandomOrder()->first();
+        $shoeTypes = ['Running', 'Walking', 'Casual', 'Sport', 'Classic'];
+        $shoeModels = ['Pro', 'Elite', 'Ultra', 'Air', 'Lite'];
         
-        // Generate a more realistic name using brand and category
-        $shoeTypes = ['Running', 'Walking', 'Casual', 'Sport', 'Classic', 'Lifestyle', 'Performance', 'Training', 'Outdoor'];
-        $shoeModels = ['Pro', 'Elite', 'Ultra', 'Air', 'Lite', 'Boost', 'Plus', 'Max', 'Core', 'Prime', 'Flex', 'Swift'];
-        
-        $name = $brand->name . ' ' . $this->faker->randomElement($shoeTypes) . ' ' . $this->faker->randomElement($shoeModels);
-        
-        // Add category reference sometimes
-        if ($this->faker->boolean(50)) {
-            $name .= ' ' . $category->name;
-        }
-        
-        // Add random model number sometimes
-        if ($this->faker->boolean(30)) {
-            $name .= ' ' . $this->faker->numberBetween(100, 999);
-        }
-        
-        return [
-            'category_id' => $category->id,
-            'brand_id' => $brand->id,
+        $name = $this->faker->randomElement($shoeTypes).' '.
+                $this->faker->randomElement($shoeModels).' '.
+                $this->faker->unique()->numberBetween(100, 999);
+
+        return array_merge([
+            'category_id' => $this->faker->randomElement($categoryIds),
+            'brand_id' => $this->faker->randomElement($brandIds),
             'name' => $name,
-            'slug' => Str::slug($name),
-            'image' => $imageCounter . '.jpg',
+            'slug' => Str::slug($name).'-'.Str::lower(Str::random(6)),
+            'image' => 'products/'.($imageCounter % 10 + 1).'.jpg',
             'description' => $this->faker->paragraphs(3, true),
+            'stock_count' => $this->faker->numberBetween(0, 1000),
             'price' => $price,
-            'discounted_price' => $discountedPrice,
-            'discount_percent' => $discountPercent,
-            'rating' => $this->faker->randomFloat(1, 3.5, 5.0),
-            'active' => true,
-        ];
+            'discounted_price' => $hasDiscount ? round($price * (1 - $this->faker->numberBetween(10, 80)/100)) : null,
+            'discount_percent' => $hasDiscount ? $this->faker->numberBetween(10, 80) : null,
+            'rating' => $this->faker->randomFloat(1, 0, 5),
+            'is_active' => $this->faker->boolean(90),
+            'created_at' => $this->faker->dateTimeBetween('-2 years'),
+        ], $discountDates);
     }
 }
