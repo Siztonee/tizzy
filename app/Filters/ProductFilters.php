@@ -28,24 +28,22 @@ class ProductFilters
         return $this->request->validated();
     }
 
-    protected function category($query, $value)
+    protected function brands($query, $value)
     {
-        $query->where('category_id', $value);
-    }
-
-    protected function brand($query, $value)
-    {
-        $query->where('brand_id', $value);
+        if (!empty($value)) {
+            $query->whereHas('brand', function($q) use ($value) {
+                $q->whereIn('slug', $value);
+            });
+        }
     }
 
     protected function categories($query, $value)
     {
-        $query->whereIn('category_id', $value);
-    }
-
-    protected function brands($query, $value)
-    {
-        $query->whereIn('brand_id', $value);
+        if (!empty($value)) {
+            $query->whereHas('category', function($q) use ($value) {
+                $q->whereIn('slug', $value);
+            });
+        }
     }
 
     protected function min_price($query, $value)

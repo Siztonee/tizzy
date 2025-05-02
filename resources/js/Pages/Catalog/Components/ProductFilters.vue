@@ -1,22 +1,5 @@
 <template>
     <aside class="w-full md:w-64 space-y-8">
-        <!-- Индикатор количества выбранных фильтров -->
-        <div class="text-sm text-gray-400 mb-2">
-            Выбрано брендов: {{ localFilters.brands.length }}
-        </div>
-
-        <!-- Чипсы выбранных фильтров -->
-        <div class="flex flex-wrap gap-2 mb-4">
-            <div 
-                v-for="brand in localFilters.brands"
-                class="px-2 py-1 bg-indigo-500 rounded-full text-sm"
-            >
-                {{ brands.find(b => b.id === brand)?.name }}
-                <button @click="localFilters.brands = localFilters.brands.filter(b => b !== brand)">
-                    ×
-                </button>
-            </div>
-        </div>
 
         <!-- Price Filter -->
         <div class="bg-gray-800 p-6 rounded-xl">
@@ -53,7 +36,7 @@
                 >
                     <input 
                         type="checkbox"
-                        :value="brand.id"
+                        :value="brand.slug"
                         v-model="localFilters.brands"
                         class="rounded bg-gray-700 border-gray-600 text-indigo-500"
                     />
@@ -72,7 +55,7 @@
                 >
                     <input 
                         type="checkbox"
-                        :value="category.id"
+                        :value="category.slug"
                         v-model="localFilters.categories"
                         class="rounded bg-gray-700 border-gray-600 text-indigo-500"
                     />
@@ -94,12 +77,22 @@
             />
         </div>
 
-        <button 
-            @click="resetFilters"
-            class="w-full py-2 text-indigo-400 hover:text-indigo-300"
-        >
-            Сбросить фильтры
-        </button>
+        <!-- Кнопки действий -->
+        <div class="space-y-4">
+            <button 
+                @click="applyFilters"
+                class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl"
+            >
+                Применить фильтры
+            </button>
+            <button 
+                @click="resetFilters"
+                class="w-full py-2 text-indigo-400 hover:text-indigo-300"
+            >
+                Сбросить фильтры
+            </button>
+        </div>
+
     </aside>
 </template>
 
@@ -115,54 +108,64 @@ const props = defineProps({
 
 // Инициализация фильтров
 const localFilters = ref({
-    categories: props.filters.categories || [],
+    categories: props.filters.categories || [],   
     brands: props.filters.brands || [],
-    min_price: props.filters.min_price || undefined,
-    max_price: props.filters.max_price || undefined,
-    discount: props.filters.discount || undefined,
+    min_price: props.filters.min_price || null,
+    max_price: props.filters.max_price || null,
+    discount: props.filters.discount || null,
     sort: props.filters.sort || null,
 });
 
 // Слайдер цены
-const minPriceValue = ref(0);
-const maxPriceValue = ref(50000);
+const minPriceValue = ref(props.filters.min_price || 0);
+const maxPriceValue = ref(props.filters.max_price || 50000);
 
 const formatPrice = (value) => {
     return new Intl.NumberFormat('ru-RU').format(value);
 };
 
-watch([minPriceValue, maxPriceValue], ([newMin, newMax]) => {
-    localFilters.value.min_price = newMin;
-    localFilters.value.max_price = newMax;
-});
+// Метод для применения фильтров
+const applyFilters = () => {
+    const params = {
+        brands: localFilters.value.brands.join(','),
+        categories: localFilters.value.categories.join(','),
+        min_price: localFilters.value.min_price || undefined,
+        max_price: localFilters.value.max_price || undefined,
+        discount: localFilters.value.discount || undefined,
+        sort: localFilters.value.sort || undefined,
+        page: 1
+    };
 
-// Дебаунс фильтров
-let debounceTimer = null;
+    // Очистка пустых параметров
+    const cleanParams = Object.fromEntries(
+        Object.entries(params)
+            .filter(([_, v]) => v !== undefined && v !== '')
+    );
 
-watch(localFilters, (newFilters) => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-        router.get('/catalog', {
-            ...newFilters,
-            categories: newFilters.categories.length ? newFilters.categories : undefined,
-            brands: newFilters.brands.length ? newFilters.brands : undefined,
-        }, {
-            preserveState: true,
-            replace: true,
-        });
-    }, 400);
-}, { deep: true });
+    router.get('/catalog', cleanParams, {
+        preserveState: true,
+        replace: true,
+        preserveScroll: true
+    });
+};
 
+// Сброс фильтров
 const resetFilters = () => {
     localFilters.value = {
         categories: [],
         brands: [],
-        min_price: undefined,
-        max_price: undefined,
-        discount: undefined,
+        min_price: null,
+        max_price: null,
+        discount: null,
         sort: null,
     };
     minPriceValue.value = 0;
     maxPriceValue.value = 50000;
 };
+
+// Синхронизация слайдера с фильтрами
+watch([minPriceValue, maxPriceValue], ([newMin, newMax]) => {
+    localFilters.value.min_price = newMin;
+    localFilters.value.max_price = newMax;
+});
 </script>
