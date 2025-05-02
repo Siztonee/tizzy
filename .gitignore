@@ -21,3 +21,12 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+!/storage/app/public/products/[1-9].*
+!/storage/app/public/products/10.*
+
+!/storage/app/public/icons/brands/[1-9].*
+!/storage/app/public/icons/brands/10.*
+
+!/storage/app/public/icons/categories/[1-9].*
+!/storage/app/public/icons/categories/10.*
